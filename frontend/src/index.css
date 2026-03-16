@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-canvas text-gray-100;
+  }
+}
+
+.input-field {
+  @apply w-full bg-canvas border border-border rounded-lg px-3 py-2
+    text-sm text-gray-200 placeholder-gray-600
+    focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30
+    transition-colors;
+}
+
+.react-flow__node {
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+.react-flow__edge-path {
+  stroke: #6366f1 !important;
+  stroke-width: 2 !important;
+}
+
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid #6366f1 !important;
+  background: #1a1a2e !important;
+}
+
+.react-flow__handle:hover {
+  background: #6366f1 !important;
+}
+
+.react-flow__controls {
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  border: 1px solid #2d2d5e !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.react-flow__controls-button {
+  background: #1a1a2e !important;
+  border-bottom: 1px solid #2d2d5e !important;
+  fill: #9ca3af !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #252547 !important;
+  fill: #f3f4f6 !important;
+}
+
+.react-flow__minimap {
+  border-radius: 8px !important;
+  border: 1px solid #2d2d5e !important;
+  background: #1a1a2e !important;
+}
+
+.react-flow__background {
+  background-color: #0f0f23 !important;
+}

@@ -1,0 +1,78 @@
+{
+  "id": null,
+  "name": "Customer Welcome Flow",
+  "nodes": [
+    {
+      "id": "node_1",
+      "type": "workflowNode",
+      "position": { "x": 300, "y": 50 },
+      "data": {
+        "label": "New Customer Trigger",
+        "type": "trigger",
+        "config": {
+          "triggerType": "webhook",
+          "payload": { "customerName": "Jane Doe", "email": "jane@example.com" }
+        },
+        "icon": "Zap",
+        "color": "#f59e0b"
+      }
+    },
+    {
+      "id": "node_2",
+      "type": "workflowNode",
+      "position": { "x": 300, "y": 200 },
+      "data": {
+        "label": "Generate Welcome Message",
+        "type": "aiAgent",
+        "config": {
+          "model": "gpt-4o-mini",
+          "systemPrompt": "You are a friendly customer success agent. Generate warm, personalized welcome messages.",
+          "userPrompt": "A new customer just registered. Their name is {{lastOutput}}. Generate a short, warm welcome message.",
+          "temperature": 0.8,
+          "maxTokens": 256
+        },
+        "icon": "Brain",
+        "color": "#8b5cf6"
+      }
+    },
+    {
+      "id": "node_3",
+      "type": "workflowNode",
+      "position": { "x": 300, "y": 380 },
+      "data": {
+        "label": "Post to Slack",
+        "type": "slack",
+        "config": {
+          "connectionId": "user-slack",
+          "channel": "#new-customers",
+          "messageTemplate": "{{lastOutput.message}}"
+        },
+        "icon": "MessageSquare",
+        "color": "#4ade80"
+      }
+    },
+    {
+      "id": "node_4",
+      "type": "workflowNode",
+      "position": { "x": 300, "y": 540 },
+      "data": {
+        "label": "Log to Spreadsheet",
+        "type": "googleSheets",
+        "config": {
+          "connectionId": "user-gsheets",
+          "spreadsheetId": "your-spreadsheet-id",
+          "sheetName": "Customers",
+          "range": "A1",
+          "values": ["{{lastOutput.message}}", "{{previousOutputs.node_1.payload.email}}"]
+        },
+        "icon": "Sheet",
+        "color": "#34d399"
+      }
+    }
+  ],
+  "edges": [
+    { "id": "e1-2", "source": "node_1", "target": "node_2", "animated": true },
+    { "id": "e2-3", "source": "node_2", "target": "node_3", "animated": true },
+    { "id": "e3-4", "source": "node_3", "target": "node_4", "animated": true }
+  ]
+}
