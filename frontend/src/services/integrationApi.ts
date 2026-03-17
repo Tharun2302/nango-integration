@@ -26,6 +26,8 @@ export interface NangoConnection {
 export interface NangoIntegration {
   unique_key: string;
   provider: string;
+  display_name?: string;
+  logo?: string;
 }
 
 export interface NangoConfig {
@@ -34,12 +36,34 @@ export interface NangoConfig {
   providerKeys: Record<string, string>;
 }
 
+export interface CreateIntegrationPayload {
+  provider: string;
+  uniqueKey: string;
+  clientId?: string;
+  clientSecret?: string;
+  scopes?: string;
+}
+
 export const integrationApi = {
   getConfig: () =>
     request<NangoConfig>('/config'),
 
+  getAvailableProviders: () =>
+    request<Record<string, { display_name: string; auth_mode: string; docs: string; categories?: string[] }>>('/providers'),
+
   listIntegrations: () =>
     request<{ integrations: NangoIntegration[] }>('/integrations'),
+
+  createIntegration: (payload: CreateIntegrationPayload) =>
+    request<{ success: boolean; integration: unknown }>('/integrations', {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+
+  deleteIntegration: (uniqueKey: string) =>
+    request<{ success: boolean }>(`/integrations/${encodeURIComponent(uniqueKey)}`, {
+      method: 'DELETE',
+    }),
 
   listConnections: (provider?: string) => {
     const query = provider ? `?provider=${encodeURIComponent(provider)}` : '';

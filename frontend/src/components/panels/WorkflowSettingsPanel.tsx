@@ -1,10 +1,14 @@
 import { useState, useCallback } from 'react';
-import { Save, Play, Trash2, Download, Upload, CheckCircle2, Loader2, AlertCircle, Activity } from 'lucide-react';
+import { Save, Play, Trash2, Download, Upload, CheckCircle2, Loader2, AlertCircle, Activity, Plug } from 'lucide-react';
 import { useWorkflowStore } from '../../store/workflowStore';
 import { useExecutionStore } from '../../store/executionStore';
 import { workflowApi } from '../../services/api';
 
-export function WorkflowSettingsPanel() {
+interface WorkflowSettingsPanelProps {
+  onNavigateIntegrations?: () => void;
+}
+
+export function WorkflowSettingsPanel({ onNavigateIntegrations }: WorkflowSettingsPanelProps) {
   const { workflowName, setWorkflowName, setWorkflowId, toJSON, loadWorkflow, clearWorkflow } =
     useWorkflowStore();
   const { isRunning, setRunning, setExecution, lastExecution, toggleResults, clearExecution } =
@@ -146,6 +150,16 @@ export function WorkflowSettingsPanel() {
           >
             <Activity size={14} />
             Logs
+          </button>
+        )}
+
+        {onNavigateIntegrations && (
+          <button
+            onClick={onNavigateIntegrations}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg text-accent-light hover:bg-accent/10 transition-all"
+          >
+            <Plug size={14} />
+            Integrations
           </button>
         )}
 

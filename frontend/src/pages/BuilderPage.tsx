@@ -5,12 +5,16 @@ import { WorkflowSettingsPanel } from '../components/panels/WorkflowSettingsPane
 import { ExecutionResultsPanel } from '../components/panels/ExecutionResultsPanel';
 import { useWorkflowStore } from '../store/workflowStore';
 
-export function BuilderPage() {
+interface BuilderPageProps {
+  onNavigateIntegrations: () => void;
+}
+
+export function BuilderPage({ onNavigateIntegrations }: BuilderPageProps) {
   const { selectedNodeId } = useWorkflowStore();
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden">
-      <WorkflowSettingsPanel />
+      <WorkflowSettingsPanel onNavigateIntegrations={onNavigateIntegrations} />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
